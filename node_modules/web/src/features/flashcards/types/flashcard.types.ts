@@ -3,5 +3,5 @@ export type Flashcard = {
   question: string;
   answer: string;
   category: string;
-  status: 'not-started' | 'in-progress' | 'mastered';
+  knownCount: number;
 };
