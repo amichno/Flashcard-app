@@ -8,5 +8,9 @@
   ],
   "scripts": {
     "dev:web": "npm run dev --workspace=web"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3"
   }
 }
