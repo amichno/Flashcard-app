@@ -15,7 +15,7 @@ export const Header = () => {
         <img src={LogoFlashCard} className='h-10 w-10' />
         <div className='text-2xl'>Flashcard</div>
       </div>
-      <nav className='flex items-center rounded-full border-with-shadow p-1 px-3'>
+      <nav className='flex items-center rounded-full outlined-surface hard-shadow p-1 px-3'>
         <NavLink to='/study' className={getLinkClasses}>
           Study Mode
         </NavLink>
