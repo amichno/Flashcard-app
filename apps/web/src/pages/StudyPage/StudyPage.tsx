@@ -1,8 +1,16 @@
+import { StudyActions } from '../../app/components/StudyActions';
 import { StudyCard } from '../../app/components/StudyCard';
 import { StudyControl } from '../../app/components/StudyControls';
 import { FlashCard } from '../../features/flashcards/Types/flashCard';
 
 export const StudyPage = () => {
+  const handleKnow = () => {
+    console.log('I know this');
+  };
+
+  const handleReset = () => {
+    console.log('Reset progress');
+  };
   const emptyCard: FlashCard = {
     id: '',
     question: 'question hereee',
@@ -18,7 +26,7 @@ export const StudyPage = () => {
 
           <StudyCard flashCard={emptyCard} />
 
-          <div>Study actions</div>
+          <StudyActions onKnow={handleKnow} onReset={handleReset} />
 
           <div>Study navigation</div>
         </section>
