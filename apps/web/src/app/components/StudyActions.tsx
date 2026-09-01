@@ -17,7 +17,7 @@ export const StudyActions = ({ onKnow, onReset }: StudyActionsProps) => {
       <button
         type='button'
         onClick={onReset}
-        className='outlined-surface px-5 py-2 font-semibold'
+        className='outlined-surface px-5 py-2  hard-shadow font-semibold'
       >
         Reset Progress
       </button>
