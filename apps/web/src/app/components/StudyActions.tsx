@@ -5,7 +5,7 @@ type StudyActionsProps = {
 
 export const StudyActions = ({ onKnow, onReset }: StudyActionsProps) => {
   return (
-    <div className='flex items-center justify-center gap-4'>
+    <div className='flex items-center justify-center gap-4 border-b-2 py-4'>
       <button
         type='button'
         onClick={onKnow}

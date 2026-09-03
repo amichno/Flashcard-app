@@ -21,7 +21,7 @@ export const StudyCard = ({ flashCard }: StudyCardProps) => {
 
   return (
     <div
-      className={`outlined-surface  ${isRevealed ? CATEGORY_CONFIG[KNOW_COUNT_CATEGORY.TOTAL].background : backgroundColor} min-h-[380px] p-6 rounded-3xl w-full hard-shadow flex flex-col justify-between `}
+      className={`outlined-surface px-4 ${isRevealed ? CATEGORY_CONFIG[KNOW_COUNT_CATEGORY.TOTAL].background : backgroundColor}  min-h-[380px] py-6 mx-4 rounded-3xl max-w-[99%]  hard-shadow flex flex-col justify-between `}
     >
       <div className='flex justify-center '>
         <span
