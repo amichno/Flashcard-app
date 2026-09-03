@@ -5,6 +5,7 @@ import { StudyControl } from '../../app/components/StudyControls';
 import { FlashCard } from '../../features/flashcards/Types/flashCard';
 import { initialFlashcards } from '../../features/flashcards/data/initialFlashcard';
 import { MASTERY_THRESHOLD } from '../../features/flashcards/constants/flashCards';
+import { StudyNavigation } from '../../app/components/StudyNavigation';
 
 export const StudyPage = () => {
   const [flashcards, setFlashcards] = useState<FlashCard[]>(initialFlashcards);
@@ -38,6 +39,17 @@ export const StudyPage = () => {
       ),
     );
   };
+
+  const handleNext = () => {
+    const newFlashcard = flashcards[currentIndex + 1];
+    if (newFlashcard) setCurrentIndex(currentIndex + 1);
+    //setCurrentIndex(prevIndex => if)
+  };
+  const handlePrev = () => {
+    const newFlashcard = flashcards[currentIndex - 1];
+    if (newFlashcard) setCurrentIndex(currentIndex - 1);
+  };
+
   return (
     <main className='mx-auto max-w-[1440px] px-4 py-6'>
       <div className='grid gap-6 lg:grid-cols-[1fr_280px]'>
@@ -48,7 +60,7 @@ export const StudyPage = () => {
 
           <StudyActions onKnow={handleKnow} onReset={handleReset} />
 
-          <div>Study navigation</div>
+          <StudyNavigation onNext={handleNext} onPrev={handlePrev} />
         </section>
 
         <aside>
