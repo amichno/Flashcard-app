@@ -6,6 +6,8 @@ import { FlashCard } from '../../features/flashcards/Types/flashCard';
 import { initialFlashcards } from '../../features/flashcards/data/initialFlashcard';
 import { MASTERY_THRESHOLD } from '../../features/flashcards/constants/flashCards';
 import { StudyNavigation } from '../../app/components/StudyNavigation';
+import { StudyStatistics } from '../../app/components/StudyStatistics';
+import { getStudyStatistics } from '../../features/flashcards/utils/getStudyStatistics';
 
 export const StudyPage = () => {
   const [flashcards, setFlashcards] = useState<FlashCard[]>(initialFlashcards);
@@ -56,7 +58,7 @@ export const StudyPage = () => {
         <section className='flex flex-col gap-4 outlined-surface hard-shadow py-4 rounded-2xl'>
           <StudyControl />
 
-          <StudyCard flashCard={currentFlashcard} />
+          <StudyCard flashCard={currentFlashcard} key={currentFlashcard.id} />
 
           <StudyActions onKnow={handleKnow} onReset={handleReset} />
 
@@ -64,7 +66,7 @@ export const StudyPage = () => {
         </section>
 
         <aside>
-          <div>Study statistics</div>
+          <StudyStatistics statistics={getStudyStatistics(flashcards)} />
         </aside>
       </div>
     </main>
