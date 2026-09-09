@@ -54,7 +54,7 @@ export const StudyPage = () => {
 
   return (
     <main className='mx-auto max-w-[1440px] px-4 py-6'>
-      <div className='grid gap-6 lg:grid-cols-[1fr_280px]'>
+      <div className='grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_344px]'>
         <section className='flex flex-col gap-4 outlined-surface hard-shadow py-4 rounded-2xl'>
           <StudyControl />
 
@@ -65,7 +65,7 @@ export const StudyPage = () => {
           <StudyNavigation onNext={handleNext} onPrev={handlePrev} />
         </section>
 
-        <aside>
+        <aside className='w-full  lg:max-w-[392px]'>
           <StudyStatistics statistics={getStudyStatistics(flashcards)} />
         </aside>
       </div>
