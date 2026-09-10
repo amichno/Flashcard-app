@@ -1,6 +1,4 @@
-import { KNOW_COUNT_CATEGORY } from '../../features/flashcards/constants/categoryStyles';
 import { STUDY_STATISTIC } from '../../features/flashcards/constants/studyStatistics';
-import { FlashcardCategory } from '../../features/flashcards/Types/flashCard';
 import type { StudyStatistics as StudyStatisticsType } from '../../features/flashcards/types/studyStatistics';
 
 type StudyStatisticsProps = {
@@ -8,10 +6,8 @@ type StudyStatisticsProps = {
 };
 
 export const StudyStatistics = ({ statistics }: StudyStatisticsProps) => {
-  const { total, notStarted, inProgress, mastered } = statistics;
-
   return (
-    <div className='w-full rounded-3xl border-2 border-[var(--ui-border-color)] bg-white p-5 sm:p-6'>
+    <div className='w-full h-full rounded-3xl border-2 hard-shadow border-[var(--ui-border-color)] bg-white p-5 sm:p-6'>
       <h2 className='mb-5 text-xl font-semibold'>Study Statistics</h2>
 
       <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1'>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FlashCard } from '../../features/flashcards/Types/flashCard';
+import { FlashCard } from '../../features/flashcards/types/flashCard';
 import { getBackgroundColor } from '../../features/flashcards/utils/getBackgroundColor';
 import {
   CATEGORY_CONFIG,
