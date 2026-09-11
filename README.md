@@ -1,3 +1,3 @@
-# Flashcar App
+# Flashcard App
 Fullstack app with CRUD
 
