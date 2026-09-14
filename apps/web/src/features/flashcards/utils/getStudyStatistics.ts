@@ -1,5 +1,5 @@
 import { MASTERY_THRESHOLD } from '../constants/flashCards';
-import { FlashCard } from '../Types/flashCard';
+import { FlashCard } from '../types/flashCard';
 import { StudyStatistics } from '../types/studyStatistics';
 
 export const getStudyStatistics = (

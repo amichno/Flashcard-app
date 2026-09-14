@@ -2,16 +2,26 @@ import { useState } from 'react';
 import { StudyActions } from '../../app/components/StudyActions';
 import { StudyCard } from '../../app/components/StudyCard';
 import { StudyControl } from '../../app/components/StudyControls';
-import { FlashCard } from '../../features/flashcards/Types/flashCard';
+import {
+  FlashCard,
+  FlashcardCategory,
+} from '../../features/flashcards/types/flashCard';
 import { initialFlashcards } from '../../features/flashcards/data/initialFlashcard';
 import { MASTERY_THRESHOLD } from '../../features/flashcards/constants/flashCards';
 import { StudyNavigation } from '../../app/components/StudyNavigation';
 import { StudyStatistics } from '../../app/components/StudyStatistics';
 import { getStudyStatistics } from '../../features/flashcards/utils/getStudyStatistics';
+import { CATEGORY_FILTER } from '../../features/flashcards/constants/filters';
+import { CategoryFilter } from '../../features/flashcards/types/filterCategory';
 
 export const StudyPage = () => {
   const [flashcards, setFlashcards] = useState<FlashCard[]>(initialFlashcards);
 
+  const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>(
+    CATEGORY_FILTER.ALL,
+  );
+
+  const [hideMastered, setHideMastered] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const currentFlashcard = flashcards[currentIndex];
@@ -45,11 +55,27 @@ export const StudyPage = () => {
   const handleNext = () => {
     const newFlashcard = flashcards[currentIndex + 1];
     if (newFlashcard) setCurrentIndex(currentIndex + 1);
-    //setCurrentIndex(prevIndex => if)
   };
+
   const handlePrev = () => {
     const newFlashcard = flashcards[currentIndex - 1];
     if (newFlashcard) setCurrentIndex(currentIndex - 1);
+  };
+
+  const getFilteredFlashCards = (category: CategoryFilter) => {
+    return flashcards.filter(
+      (flaschCard) =>
+        category === CATEGORY_FILTER.ALL || flaschCard.category === category,
+    );
+  };
+
+  const filteredFlashcards = getFilteredFlashCards(selectedCategory);
+
+  const handleCategoryChange = (category: CategoryFilter) => {
+    const nextFlashcards = getFilteredFlashCards(category);
+
+    setSelectedCategory(category);
+    setCurrentIndex(nextFlashcards.length > 0 ? 0 : -1);
   };
 
   return (
