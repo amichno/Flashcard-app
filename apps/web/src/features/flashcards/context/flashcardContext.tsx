@@ -7,7 +7,7 @@ type FlashCardContextType = {
   setFlashcards: React.Dispatch<React.SetStateAction<FlashCard[]>>;
 };
 
-const FlashcardContext = createContext<FlashCardContextType | null>(null);
+const FlashcardContext = createContext<FlashCardContextType | undefined>(undefined);
 
 type FlashcardsProviderProps = {
   children: ReactNode;

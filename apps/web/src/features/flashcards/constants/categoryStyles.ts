@@ -19,3 +19,10 @@ export const CATEGORY_CONFIG = {
     background: 'bg-pink-400',
   },
 } as const;
+
+export const CATEGORY = {
+  REACT: 'React',
+  JAVASCRIPT: 'JavaScript',
+  CSS: 'CSS',
+  HTML: 'HTML',
+} as const;
