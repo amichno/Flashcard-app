@@ -50,13 +50,15 @@ export const StudyPage = () => {
   };
 
   const handleNext = () => {
-    const newFlashcard = flashcards[currentIndex + 1];
-    if (newFlashcard) setCurrentIndex(currentIndex + 1);
+    if (currentIndex < studyFlashcards.length - 1) {
+      setCurrentIndex((previousIndex) => previousIndex + 1);
+    }
   };
 
   const handlePrev = () => {
-    const newFlashcard = flashcards[currentIndex - 1];
-    if (newFlashcard) setCurrentIndex(currentIndex - 1);
+    if (currentIndex > 0) {
+      setCurrentIndex((previousIndex) => previousIndex - 1);
+    }
   };
 
   const getFilteredFlashCards = (
@@ -91,6 +93,7 @@ export const StudyPage = () => {
     const nextFlashcards = getFilteredFlashCards(selectedCategory, value);
 
     setHideMastered(value);
+    setShuffleOrder(null);
     setCurrentIndex(nextFlashcards.length > 0 ? 0 : -1);
   };
 
@@ -126,14 +129,17 @@ export const StudyPage = () => {
           />
 
           {currentFlashcard ? (
-            <StudyCard key={currentFlashcard.id} flashCard={currentFlashcard} />
+            <>
+              <StudyCard
+                key={currentFlashcard.id}
+                flashCard={currentFlashcard}
+              />
+              <StudyActions onKnow={handleKnow} onReset={handleReset} />
+              <StudyNavigation onNext={handleNext} onPrev={handlePrev} />
+            </>
           ) : (
             <p>No flashcards match the selected filters.</p>
           )}
-
-          <StudyActions onKnow={handleKnow} onReset={handleReset} />
-
-          <StudyNavigation onNext={handleNext} onPrev={handlePrev} />
         </section>
 
         <aside className="w-full  lg:max-w-[392px]">
