@@ -11,110 +11,36 @@ import { CategoryFilter } from "../../features/flashcards/types/filterCategory";
 import { useFlashcards } from "../../features/flashcards/context/flashcardContext";
 import { shuffleArray } from "../../features/flashcards/utils/helpers";
 import { FlashCard } from "../../features/flashcards/types/flashCard";
+import { useFlashcardProgress } from "../../features/flashcards/hooks/useFlashcardProgress";
+import { useStudyFilters } from "./hooks/useStudyFilters";
+import { useStudyNavigation } from "./hooks/useStudyNavigation";
 
 export const StudyPage = () => {
   const { flashcards, setFlashcards } = useFlashcards();
-  const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>(
-    CATEGORY_FILTER.ALL,
-  );
 
-  const [hideMastered, setHideMastered] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const [shuffleOrder, setShuffleOrder] = useState<string[] | null>(null);
-
-  const handleKnow = () => {
-    setFlashcards((previousFlashcards) =>
-      previousFlashcards.map((flashcard) =>
-        flashcard.id === currentFlashcard.id
-          ? {
-              ...flashcard,
-              knownCount: Math.min(flashcard.knownCount + 1, MASTERY_THRESHOLD),
-            }
-          : flashcard,
-      ),
-    );
-  };
-
-  const handleReset = () => {
-    setFlashcards((previousFlashcards) =>
-      previousFlashcards.map((flashcard) =>
-        flashcard.id === currentFlashcard.id
-          ? {
-              ...flashcard,
-              knownCount: 0,
-            }
-          : flashcard,
-      ),
-    );
-  };
-
-  const handleNext = () => {
-    if (currentIndex < studyFlashcards.length - 1) {
-      setCurrentIndex((previousIndex) => previousIndex + 1);
-    }
-  };
-
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((previousIndex) => previousIndex - 1);
-    }
-  };
-
-  const getFilteredFlashCards = (
-    category: CategoryFilter,
-    shouldHideMastered: boolean,
-  ) => {
-    return flashcards.filter((flashcard) => {
-      const matchesCategory =
-        category === CATEGORY_FILTER.ALL || flashcard.category === category;
-
-      const matchesMastered =
-        !shouldHideMastered || flashcard.knownCount < MASTERY_THRESHOLD;
-
-      return matchesCategory && matchesMastered;
-    });
-  };
-
-  const filteredFlashcards = getFilteredFlashCards(
+  const {
     selectedCategory,
     hideMastered,
+    filteredFlashcards,
+    handleCategoryChange,
+    handleHideMasteredChange,
+  } = useStudyFilters(flashcards);
+
+  const {
+    currentIndex,
+    currentFlashcard,
+    studyFlashcards,
+    setCurrentIndex,
+    setShuffleOrder,
+    handleNext,
+    handlePrev,
+    handleShuffle,
+  } = useStudyNavigation(filteredFlashcards);
+
+  const { handleKnow, handleReset } = useFlashcardProgress(
+    setFlashcards,
+    currentFlashcard,
   );
-
-  const handleCategoryChange = (category: CategoryFilter) => {
-    const nextFlashcards = getFilteredFlashCards(category, hideMastered);
-
-    setSelectedCategory(category);
-    setShuffleOrder(null);
-    setCurrentIndex(nextFlashcards.length > 0 ? 0 : -1);
-  };
-
-  const handleHideMasteredChange = (value: boolean) => {
-    const nextFlashcards = getFilteredFlashCards(selectedCategory, value);
-
-    setHideMastered(value);
-    setShuffleOrder(null);
-    setCurrentIndex(nextFlashcards.length > 0 ? 0 : -1);
-  };
-
-  const handleShuffle = () => {
-    const shuffledIds = shuffleArray(
-      filteredFlashcards.map((flashcard) => flashcard.id),
-    );
-
-    setShuffleOrder(shuffledIds);
-    setCurrentIndex(shuffledIds.length > 0 ? 0 : -1);
-  };
-
-  const studyFlashcards = shuffleOrder
-    ? shuffleOrder
-        .map((id) =>
-          filteredFlashcards.find((flashcard) => flashcard.id === id),
-        )
-        .filter((flashcard): flashcard is FlashCard => flashcard !== undefined)
-    : filteredFlashcards;
-
-  const currentFlashcard = studyFlashcards[currentIndex];
 
   return (
     <main className="mx-auto max-w-[1440px] px-4 py-6">
