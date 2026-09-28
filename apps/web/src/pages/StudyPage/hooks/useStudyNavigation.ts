@@ -13,17 +13,26 @@ export const useStudyNavigation = (flashcards: FlashCard[]) => {
         .filter((flashcard): flashcard is FlashCard => flashcard !== undefined)
     : flashcards;
 
-  const currentFlashcard = studyFlashcards[currentIndex];
+  const safeIndex =
+    studyFlashcards.length === 0
+      ? -1
+      : Math.min(Math.max(currentIndex, 0), studyFlashcards.length - 1);
+
+  const currentFlashcard = studyFlashcards[safeIndex];
+
+  const canGoNext = safeIndex >= 0 && safeIndex < studyFlashcards.length - 1;
+
+  const canGoPrev = safeIndex > 0;
 
   const handleNext = () => {
-    if (currentIndex < studyFlashcards.length - 1) {
-      setCurrentIndex((index) => index + 1);
+    if (safeIndex < studyFlashcards.length - 1) {
+      setCurrentIndex(safeIndex + 1);
     }
   };
 
   const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((index) => index - 1);
+    if (safeIndex > 0) {
+      setCurrentIndex(safeIndex - 1);
     }
   };
 
@@ -37,9 +46,11 @@ export const useStudyNavigation = (flashcards: FlashCard[]) => {
   };
 
   return {
-    currentIndex,
+    currentIndex: safeIndex,
     currentFlashcard,
     studyFlashcards,
+    canGoNext,
+    canGoPrev,
     setCurrentIndex,
     setShuffleOrder,
     handleNext,
