@@ -1,9 +1,7 @@
 import { FlashcardCategory } from "../types/flashCard";
 
 export const CATEGORY_FILTER = {
-  ALL: 'all',
+  ALL: "all",
 } as const;
 
-export type CategoryFilter =
-  | FlashcardCategory
-  | typeof CATEGORY_FILTER.ALL;
+export type CategoryFilter = string;

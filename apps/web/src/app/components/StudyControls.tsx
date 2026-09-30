@@ -7,6 +7,7 @@ import chevronDownIcon from "../../assets/images/icon-chevron-down.svg";
 import shuffleIcon from "../../assets/images/icon-mastered.svg";
 
 type StudyControlProps = {
+  categories: string[];
   selectedCategory: CategoryFilter;
   onCategoryChange: (category: CategoryFilter) => void;
   hideMastered: boolean;
@@ -15,6 +16,7 @@ type StudyControlProps = {
 };
 
 export const StudyControl = ({
+  categories,
   selectedCategory,
   onCategoryChange,
   hideMastered,
@@ -34,7 +36,7 @@ export const StudyControl = ({
           >
             <option value={CATEGORY_FILTER.ALL}>All Categories</option>
 
-            {Object.values(CATEGORY).map((category) => (
+            {categories.map((category) => (
               <option key={category} value={category}>
                 {category}
               </option>
