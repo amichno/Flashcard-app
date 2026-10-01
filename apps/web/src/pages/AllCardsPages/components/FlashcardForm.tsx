@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import type { FlashCard } from "../../../features/flashcards/types/flashCard";
@@ -15,7 +15,7 @@ import { FormSelect } from "./form/FormSelect";
 type FlashcardFormProps = {
   flashcard?: FlashCard;
   categories: string[];
-  onSubmit: (values: FlashcardFormValues) => void;
+  onSubmit: (values: FlashcardFormValues) => void | Promise<void>;
   onCancel?: () => void;
 };
 
@@ -31,7 +31,7 @@ export const FlashcardForm = ({
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FlashcardFormValues>({
     resolver: zodResolver(flashcardFormSchema),
     defaultValues: {
@@ -39,6 +39,10 @@ export const FlashcardForm = ({
       answer: "",
       category: "",
     },
+  });
+
+  const methods = useForm<FlashcardFormValues>({
+    resolver: zodResolver(flashcardFormSchema),
   });
 
   useEffect(() => {
@@ -49,43 +53,51 @@ export const FlashcardForm = ({
     });
   }, [flashcard, reset]);
 
+  const handleFormSubmit = async (values: FlashcardFormValues) => {
+    await onSubmit(values);
+
+    if (!isEditMode) {
+      reset({
+        question: "",
+        answer: "",
+        category: "",
+      });
+    }
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="outlined-surface hard-shadow flex flex-col gap-4 rounded-2xl p-5"
-    >
-      <FormInput
-        label="Question"
-        placeholder="Enter question"
-        registration={register("question")}
-        error={errors.question}
-      />
+    <FormProvider {...methods}>
+      <form
+        onSubmit={handleSubmit(handleFormSubmit)}
+        className="outlined-surface hard-shadow flex flex-col gap-4 rounded-2xl p-5"
+      >
+        <FormInput label="Question" name="question" error={errors.question} />
 
-      <FormTextarea
-        label="Answer"
-        placeholder="Enter answer"
-        registration={register("answer")}
-        error={errors.answer}
-      />
+        <FormTextarea label="Answer" name="answer" error={errors.answer} />
 
-      <FormSelect
-        label="Category"
-        options={categories}
-        registration={register("category")}
-        error={errors.category}
-      />
+        <FormSelect
+          label="Category"
+          name="category"
+          options={categories}
+          error={errors.category}
+        />
 
-      <div className="flex gap-3">
-        <button type="submit">
-          {isEditMode ? "Save Changes" : "Create Card"}
-        </button>
-
-        {isEditMode && (
-          <button type="button" onClick={onCancel}>
-            Cancel
+        <div className="flex gap-3">
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting
+              ? "Saving..."
+              : isEditMode
+                ? "Save Changes"
+                : "Create Card"}
           </button>
-        )}
-      </div>
-    </form>
+
+          {isEditMode && (
+            <button type="button" onClick={onCancel}>
+              Cancel
+            </button>
+          )}
+        </div>
+      </form>
+    </FormProvider>
   );
 };

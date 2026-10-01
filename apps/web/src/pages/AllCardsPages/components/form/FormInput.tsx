@@ -1,29 +1,34 @@
-import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
+import {
+  Path,
+  useFormContext,
+  UseFormRegister,
+  type FieldError,
+  type UseFormRegisterReturn,
+} from "react-hook-form";
+import { FlashcardFormValues } from "../../../../features/flashcards/schemas/flashcardFormSchema";
 
 type FormInputProps = {
   label: string;
-  registration: UseFormRegisterReturn;
-  error?: FieldError;
+  name: Path<FlashcardFormValues>;
   placeholder?: string;
+  error?: FieldError;
 };
 
 export const FormInput = ({
   label,
-  registration,
+  name,
   error,
   placeholder,
 }: FormInputProps) => {
+  const { register } = useFormContext<FlashcardFormValues>();
+
   return (
-    <label className="flex flex-col gap-1">
-      <span className="text-sm font-medium">{label}</span>
+    <label>
+      <span>{label}</span>
 
-      <input
-        {...registration}
-        placeholder={placeholder}
-        className="outlined-surface px-4 py-2"
-      />
+      <input {...register(name)} placeholder={placeholder} />
 
-      {error && <span className="text-sm text-red-600">{error.message}</span>}
+      {error?.message && <span>{error.message}</span>}
     </label>
   );
 };
