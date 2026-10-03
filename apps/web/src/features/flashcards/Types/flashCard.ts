@@ -16,6 +16,6 @@ export type FlashCard = {
   id: string;
   question: string;
   answer: string;
-  category: FlashcardCategory;
+  category: string;
   knownCount: number;
 };

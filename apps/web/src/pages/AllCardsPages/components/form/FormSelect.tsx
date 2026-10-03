@@ -1,23 +1,35 @@
-import { FieldError, UseFormRegisterReturn } from "react-hook-form";
+import {
+  Path,
+  useFormContext,
+  type FieldError,
+  type UseFormRegisterReturn,
+} from "react-hook-form";
+import { FlashcardFormValues } from "../../../../features/flashcards/schemas/flashcardFormSchema";
 
 type FormSelectProps = {
   label: string;
-  registration: UseFormRegisterReturn;
-  error?: FieldError;
   options: string[];
+  name: Path<FlashcardFormValues>;
+  error?: FieldError;
 };
 
 export const FormSelect = ({
   label,
-  registration,
-  error,
+  name,
   options,
+  error,
 }: FormSelectProps) => {
+  const { register } = useFormContext<FlashcardFormValues>();
   return (
-    <label className="flex flex-col gap-1">
+    <label className="flex flex-col gap-2">
       <span className="text-sm font-medium">{label}</span>
 
-      <select {...registration} className="outlined-surface px-4 py-2">
+      <select
+        {...register(name)}
+        className="outlined-surface rounded-xl px-4 py-2"
+      >
+        <option value="">Select category</option>
+
         {options.map((option) => (
           <option key={option} value={option}>
             {option}
@@ -25,7 +37,9 @@ export const FormSelect = ({
         ))}
       </select>
 
-      {error && <span className="text-sm text-red-600">{error.message}</span>}
+      {error?.message && (
+        <span className="text-sm text-red-600">{error.message}</span>
+      )}
     </label>
   );
 };
