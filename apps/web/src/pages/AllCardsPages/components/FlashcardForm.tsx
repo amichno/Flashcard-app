@@ -27,12 +27,7 @@ export const FlashcardForm = ({
 }: FlashcardFormProps) => {
   const isEditMode = Boolean(flashcard);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<FlashcardFormValues>({
+  const methods = useForm<FlashcardFormValues>({
     resolver: zodResolver(flashcardFormSchema),
     defaultValues: {
       question: "",
@@ -41,9 +36,11 @@ export const FlashcardForm = ({
     },
   });
 
-  const methods = useForm<FlashcardFormValues>({
-    resolver: zodResolver(flashcardFormSchema),
-  });
+  const {
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = methods;
 
   useEffect(() => {
     reset({
@@ -55,6 +52,8 @@ export const FlashcardForm = ({
 
   const handleFormSubmit = async (values: FlashcardFormValues) => {
     await onSubmit(values);
+
+    console.log("====values ", values);
 
     if (!isEditMode) {
       reset({
@@ -69,7 +68,7 @@ export const FlashcardForm = ({
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(handleFormSubmit)}
-        className="outlined-surface hard-shadow flex flex-col gap-4 rounded-2xl p-5"
+        className="outlined-surface hard-shadow flex flex-col gap-4 rounded-2xl p-5 mb-5"
       >
         <FormInput label="Question" name="question" error={errors.question} />
 

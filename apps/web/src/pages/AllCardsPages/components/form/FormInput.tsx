@@ -23,12 +23,18 @@ export const FormInput = ({
   const { register } = useFormContext<FlashcardFormValues>();
 
   return (
-    <label>
+    <label className="flex flex-col gap-2">
       <span>{label}</span>
 
-      <input {...register(name)} placeholder={placeholder} />
+      <input
+        {...register(name)}
+        placeholder={placeholder}
+        className="outlined-surface  rounded-xl  px-4 py-2"
+      />
 
-      {error?.message && <span>{error.message}</span>}
+      {error?.message && (
+        <span className="text-sm text-red-600">{error.message}</span>
+      )}
     </label>
   );
 };
